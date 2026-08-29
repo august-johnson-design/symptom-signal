@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#183d36" />
+    <title>Symptom Signal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="auth-view" class="auth-view">
+        <div class="brand-lockup"><span class="brand-mark">✦</span><span>symptom signal</span></div>
+        <div class="auth-card">
+          <p class="eyebrow">YOUR DAILY CHECK-IN</p>
+          <h1>Make space for<br /><em>how you feel.</em></h1>
+          <p class="intro">A private, gentle place to notice patterns—one symptom event at a time.</p>
+          <form id="auth-form" novalidate>
+            <label id="name-field" class="input-group hidden"><span>Name</span><input id="name" autocomplete="name" placeholder="Your name" /></label>
+            <label class="input-group"><span>Email</span><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+            <label class="input-group"><span>Password</span><input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required /></label>
+            <p id="auth-error" class="form-error" role="alert"></p>
+            <button class="primary-button" type="submit"><span id="auth-submit-text">Sign in</span><span>→</span></button>
+          </form>
+          <p class="switch-copy"><span id="switch-prompt">New here?</span> <button id="switch-auth" class="text-button" type="button">Create an account</button></p>
+        </div>
+        <p class="auth-footnote">Your health story stays yours.</p>
+      </section>
+
+      <section id="dashboard-view" class="dashboard-view hidden">
+        <header class="topbar"><div class="brand-lockup"><span class="brand-mark">✦</span><span>symptom signal</span></div><button id="sign-out" class="sign-out" type="button">Sign out</button></header>
+        <div class="dashboard-content">
+          <section class="welcome-row"><div><p class="eyebrow">TODAY, <span id="today-label"></span></p><h1>Hi, <span id="user-name">there</span>.</h1></div><div class="sun-orb">☼</div></section>
+          <section class="checkin-card"><div><p class="eyebrow">HOW ARE YOU FEELING?</p><h2>Every detail<br />counts.</h2></div><button id="open-logger" class="event-button" type="button"><span>+</span> Log an event</button></section>
+          <section class="recent-section"><div class="section-heading"><div><p class="eyebrow">RECENT ACTIVITY</p><h2>At a glance</h2></div><span id="event-count" class="count-pill">0 events</span></div><div id="recent-events" class="event-list"><p class="empty-state">No events yet. Your first check-in can be small.</p></div></section>
+          <section class="calendar-section"><div class="section-heading"><div><p class="eyebrow">YOUR HISTORY</p><h2>Last 30 days</h2></div></div><div class="calendar-key"><span><i class="dot mild"></i> Mild</span><span><i class="dot moderate"></i> Moderate</span><span><i class="dot high"></i> High</span></div><div id="calendar" class="calendar" aria-label="Last 30 days"></div></section>
+          <section class="day-events"><div class="section-heading"><div><p id="selected-day-label" class="eyebrow">SELECT A DAY</p><h2 id="selected-day-title">Your entries</h2></div></div><div id="selected-day-events" class="event-list"><p class="empty-state">Select a day to see its events.</p></div></section>
+        </div>
+        <nav class="bottom-nav"><button class="active" type="button">⌂<span>Home</span></button><button id="nav-log" type="button">＋<span>Log</span></button><button id="nav-calendar" type="button">▦<span>History</span></button></nav>
+      </section>
+    </main>
+
+    <div id="logger-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="logger-title">
+      <div class="modal-card">
+        <div class="modal-header"><div><p id="logger-step" class="eyebrow">NEW EVENT · 1 OF 3</p><h2 id="logger-title">What are you noticing?</h2></div><button id="close-logger" class="icon-button" aria-label="Close" type="button">×</button></div>
+        <form id="event-form" novalidate>
+          <div id="symptom-step" class="form-step">
+            <div id="symptom-options" class="symptom-grid"></div>
+            <label class="input-group custom-symptom"><span>Or add your own</span><input id="custom-symptom" maxlength="100" placeholder="Describe a symptom" /></label>
+            <button class="primary-button" type="button" data-next="severity-step">Continue <span>→</span></button>
+          </div>
+          <div id="severity-step" class="form-step hidden">
+            <p class="helper-text">How intense does <strong id="chosen-symptom"></strong> feel right now?</p>
+            <div class="severity-readout"><span id="severity-value">5</span><small>/10</small></div>
+            <input id="severity" class="severity-range" type="range" min="1" max="10" value="5" />
+            <div class="range-labels"><span>Gentle</span><span>Severe</span></div>
+            <div class="button-row"><button class="secondary-button back" type="button">Back</button><button class="primary-button" type="button" data-next="notes-step">Continue <span>→</span></button></div>
+          </div>
+          <div id="notes-step" class="form-step hidden">
+            <p class="helper-text">Anything else you’d like to remember? <em>(Optional)</em></p>
+            <label class="input-group"><span>Notes</span><textarea id="notes" maxlength="2000" placeholder="What was happening, what helped, or anything else…"></textarea></label>
+            <p id="event-error" class="form-error" role="alert"></p>
+            <div class="button-row"><button class="secondary-button back" type="button">Back</button><button class="primary-button" type="submit">Save event <span>✓</span></button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
